@@ -1,8 +1,8 @@
 version: v1.1.0
 
 steps:
-- build: --platform linux/amd64 -t {{.Run.Registry}}/debug:{{.Run.ID}}-amd64 -f azurelinux/Dockerfile . 
-- build: --platform linux/arm64 -t {{.Run.Registry}}/debug:{{.Run.ID}}-arm64 -f azurelinux/Dockerfile . 
+- build: --platform=linux/amd64 -t {{.Run.Registry}}/debug:{{.Run.ID}}-amd64 -f azurelinux/Dockerfile.amd64 . 
+- build: --platform=linux/arm64 -t {{.Run.Registry}}/debug:{{.Run.ID}}-arm64 -f azurelinux/Dockerfile.arm64 . 
 - push: 
     - {{.Run.Registry}}/debug:{{.Run.ID}}-amd64
     - {{.Run.Registry}}/debug:{{.Run.ID}}-arm64
