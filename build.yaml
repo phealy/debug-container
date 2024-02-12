@@ -1,0 +1,15 @@
+version: v1.1.0
+
+steps:
+- build: --platform linux/amd64 -t {{.Run.Registry}}/debug:{{.Run.ID}}-amd64 -f azurelinux/Dockerfile . 
+- build: --platform linux/arm64 -t {{.Run.Registry}}/debug:{{.Run.ID}}-arm64 -f azurelinux/Dockerfile . 
+- push: 
+    - {{.Run.Registry}}/debug:{{.Run.ID}}-amd64
+    - {{.Run.Registry}}/debug:{{.Run.ID}}-arm64
+- cmd: >
+    docker manifest create
+    {{.Run.Registry}}/debug:latest
+    {{.Run.Registry}}/debug:{{.Run.ID}}-amd64
+    {{.Run.Registry}}/debug:{{.Run.ID}}-arm64
+- cmd: docker manifest push --purge {{.Run.Registry}}/debug:latest
+- cmd: docker manifest inspect {{.Run.Registry}}/debug:latest
